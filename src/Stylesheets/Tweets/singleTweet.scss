@@ -1,0 +1,21 @@
+.single-tweet {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 100%;
+  background: #eee;
+  margin: 1vw 0;
+  padding: 1vw;
+  .single-tweet-header {
+    display: flex;
+    justify-content: space-between;
+    width: 70%;
+    font-weight: bold;
+    .single-tweet-username {
+      font-weight: normal;
+    }
+  }
+  .single-tweet-content {
+    padding: 3vw 0;
+  }
+}

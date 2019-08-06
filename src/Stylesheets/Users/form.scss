@@ -1,0 +1,21 @@
+$dg: #262626;
+form {
+  display: flex;
+  flex-direction: column;
+  margin: 5vh auto;
+  justify-content: center;
+  align-items: center;
+  background-color: red;
+  width: 70%;
+  padding: 1vw;
+  input {
+    width: 90%;
+    margin: 0.5vw 0;
+    padding: 1vw;
+    width: 70%;
+    border: 1px solid $dg;
+  }
+  input[type="submit"] {
+    width: 10vw;
+  }
+}
