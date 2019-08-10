@@ -1,66 +1,46 @@
-import React from "react";
-import { connect } from "react-redux";
-import UserComponents from "../Components/Users";
-import userActions from "../Redux/Actions/userActions";
-import tweetActions from "../Redux/Actions/tweetActions";
+import React, { useState, useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import UserComponents from '../Components/Users';
+import userActions from '../Redux/Actions/userActions';
+import tweetActions from '../Redux/Actions/tweetActions';
 
-class ProfilePage extends React.Component {
-  state = {
-    editMode: false
-  };
-
-  componentDidMount() {
-    const { fetchUserTweetsFromDB } = this.props;
-    fetchUserTweetsFromDB();
-  }
-
-  handleEdit = user => {
-    const { editMode } = this.state;
-
+const ProfilePage = props => {
+  const currentUser = useSelector(state => state.currentUser);
+  const dispatch = useDispatch();
+  // const [userTweets, setUserTweets] = useState([]);
+  const [editMode, setEditMode] = useState(false);
+  useEffect(() => {
+    dispatch(tweetActions.fetchUserTweetsFromDB());
+  }, [dispatch]);
+  ////////////////////////////////
+  const handleEdit = user => {
     if (editMode && user.username) {
       this.updateTweets(user);
     } else {
-      this.setState({ editMode: true });
+      setEditMode(true);
     }
   };
 
-  async updateTweets(user) {
-    const { updateUserToDB, fetchUserTweetsFromDB } = this.props;
-    await updateUserToDB(user);
-    fetchUserTweetsFromDB();
-    this.setState({ editMode: false });
-  }
-
-  handleDelete = () => {
-    const { deleteUserFromDB, currentUser } = this.props;
-    deleteUserFromDB(currentUser.id);
+  const handleDelete = () => {
+    dispatch(userActions.deleteUserFromDB(currentUser.id));
+    props.history.push('/');
   };
 
-  render() {
-    const { editMode } = this.state;
-    if (!editMode) {
-      return (
-        <React.Fragment>
-          <button onClick={this.handleDelete}>Delete Account</button>
-          <UserComponents.ProfileContent handleEdit={this.handleEdit} />
-        </React.Fragment>
-      );
-    } else {
-      return (
-        <React.Fragment>
-          <UserComponents.ProfileEdit handleEdit={this.handleEdit} />
-        </React.Fragment>
-      );
-    }
+  console.log(editMode);
+  if (!editMode) {
+    return (
+      <React.Fragment>
+        <button onClick={handleDelete}>Delete Account</button>
+        <UserComponents.ProfileContent handleEdit={handleEdit} />
+      </React.Fragment>
+    );
+  } else {
+    return (
+      <React.Fragment>
+        <UserComponents.ProfileEdit handleEdit={handleEdit} />
+      </React.Fragment>
+    );
   }
-}
-const mapDispatchToProps = {
-  updateUserToDB: userActions.updateUserToDB,
-  deleteUserFromDB: userActions.deleteUserFromDB,
-  fetchUserTweetsFromDB: tweetActions.fetchUserTweetsFromDB
 };
-const mapStateToProps = state => ({ currentUser: state.currentUser });
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(ProfilePage);
+
+export default ProfilePage;

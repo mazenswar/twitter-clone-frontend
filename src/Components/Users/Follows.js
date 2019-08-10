@@ -1,10 +1,13 @@
-import React from "react";
-import { connect } from "react-redux";
-import { Link } from "react-router-dom";
+import React from 'react';
+import { useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
 
 const Follows = props => {
+  const followers = useSelector(state => state.currentUser.followers);
+  const followees = useSelector(state => state.currentUser.followees);
+
   const renderFollowers = () => {
-    return props.followers.map(follower => (
+    return followers.map(follower => (
       <Link to={`/users/${follower.id}`} key={follower.id}>
         {follower.username}
       </Link>
@@ -12,7 +15,7 @@ const Follows = props => {
   };
 
   const renderFollowees = () => {
-    return props.followees.map(followee => (
+    return followees.map(followee => (
       <Link to={`/users/${followee.id}`} key={followee.id}>
         {followee.username}
       </Link>
@@ -34,9 +37,4 @@ const Follows = props => {
   );
 };
 
-const mapStateToProps = state => ({
-  followers: state.currentUser.followers,
-  followees: state.currentUser.followees
-});
-
-export default connect(mapStateToProps)(Follows);
+export default Follows;

@@ -1,12 +1,14 @@
-import React from "react";
-import { connect } from "react-redux";
-import TweetComponents from "../Tweets";
-import ProfileCard from "./ProfileCard";
-import "../../Stylesheets/Users/profile.scss";
+import React from 'react';
+import { useSelector } from 'react-redux';
+import TweetComponents from '../Tweets';
+import ProfileCard from './ProfileCard';
+import '../../Stylesheets/Users/profile.scss';
 
 const ProfileContent = props => {
+  const userTweets = useSelector(state => state.tweets);
+
   const renderTweets = () => {
-    return props.userTweets.map(tweet => (
+    return userTweets.map(tweet => (
       <TweetComponents.SingleTweet key={`profile-${tweet.id}`} {...tweet} />
     ));
   };
@@ -20,7 +22,4 @@ const ProfileContent = props => {
   );
 };
 
-const mapStateToProps = state => ({
-  userTweets: state.tweets
-});
-export default connect(mapStateToProps)(ProfileContent);
+export default ProfileContent;

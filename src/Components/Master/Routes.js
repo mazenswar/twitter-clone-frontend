@@ -1,9 +1,10 @@
-import React from "react";
-import { connect } from "react-redux";
-import { Switch, Route } from "react-router-dom";
-import Pages from "../../Pages";
+import React from 'react';
+import { useSelector } from 'react-redux';
+import { Switch, Route } from 'react-router-dom';
+import Pages from '../../Pages';
 
 const Routes = props => {
+  const username = useSelector(state => state.currentUser.username);
   const userRoutes = () => (
     <React.Fragment>
       <Route path="/profile" component={Pages.Profile} />
@@ -16,14 +17,13 @@ const Routes = props => {
 
   const visitorRoutes = () => (
     <React.Fragment>
-      <Route path="/login" component={Pages.Login} />
-      <Route path="/signup" component={Pages.Signup} />
-      <Route component={Pages.Login} />
+      <Route exact path="/login" component={Pages.Login} />
+      <Route exact path="/signup" component={Pages.Signup} />
+      <Route exact path="/" component={Pages.Login} />
     </React.Fragment>
   );
 
-  return <Switch>{props.username ? userRoutes() : visitorRoutes()}</Switch>;
+  return <Switch>{username ? userRoutes() : visitorRoutes()}</Switch>;
 };
 
-const mapStateToProps = state => ({ username: state.currentUser.username });
-export default connect(mapStateToProps)(Routes);
+export default Routes;

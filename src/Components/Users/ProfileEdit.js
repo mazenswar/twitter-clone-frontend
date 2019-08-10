@@ -1,70 +1,53 @@
-import React, { Component } from "react";
-import { connect } from "react-redux";
-import userActions from "../../Redux/Actions/userActions";
+import React, { useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import userActions from '../../Redux/Actions/userActions';
 
-class ProfileEdit extends Component {
-  state = {
-    first_name: "",
-    last_name: "",
-    email: "",
-    username: ""
+const ProfileEdit = props => {
+  const currentUser = useSelector(state => state.currentUser);
+  const [editForm, setEditForm] = useState({ ...currentUser });
+  const dispatch = useDispatch();
+  //
+  const handleChange = e =>
+    setEditForm({ ...editForm, [e.target.name]: e.target.value });
+  //
+  const handleDeleteUser = () => {
+    dispatch(userActions.deleteUserFromDB(editForm.id));
+    props.history.push('/');
   };
 
-  componentDidMount() {
-    this.setState({ ...this.props.currentUser });
-  }
-
-  handleChange = e => this.setState({ [e.target.name]: e.target.value });
-
-  handleDeleteUser = () => {
-    const { deleteUserFromDB } = this.props;
-    deleteUserFromDB(this.state.id);
-  };
-
-  render() {
-    const { handleEdit } = this.props;
-    const { first_name, last_name, username, email } = this.state;
-    return (
-      <React.Fragment>
-        <button onClick={() => handleEdit(this.state)}>Save Changes</button>
-        <button onClick={this.handleDeleteUser}>Delete User</button>
-        <div className="profile-container">
-          <input
-            type="text"
-            name="first_name"
-            value={first_name}
-            onChange={this.handleChange}
-          />
-          <input
-            type="text"
-            name="last_name"
-            value={last_name}
-            onChange={this.handleChange}
-          />
-          <input
-            type="text"
-            name="email"
-            value={email}
-            onChange={this.handleChange}
-          />
-          <input
-            type="text"
-            name="username"
-            value={username}
-            onChange={this.handleChange}
-          />
-        </div>
-      </React.Fragment>
-    );
-  }
-}
-
-const mapDispatchToProps = {
-  deleteUserFromDB: userActions.deleteUserFromDB
+  console.log(editForm);
+  return (
+    <React.Fragment>
+      <button onClick={() => props.handleEdit(editForm)}>Save Changes</button>
+      <button onClick={handleDeleteUser}>Delete User</button>
+      <div className="profile-container">
+        <input
+          type="text"
+          name="first_name"
+          value={editForm.first_name}
+          onChange={handleChange}
+        />
+        <input
+          type="text"
+          name="last_name"
+          value={editForm.last_name}
+          onChange={handleChange}
+        />
+        <input
+          type="text"
+          name="email"
+          value={editForm.email}
+          onChange={handleChange}
+        />
+        <input
+          type="text"
+          name="username"
+          value={editForm.username}
+          onChange={handleChange}
+        />
+      </div>
+    </React.Fragment>
+  );
 };
-const mapStateToProps = state => ({ currentUser: { ...state.currentUser } });
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(ProfileEdit);
-// export default ProfileEdit;
+
+export default ProfileEdit;

@@ -1,22 +1,24 @@
-import React from "react";
-import { connect } from "react-redux";
-import { Link } from "react-router-dom";
-import TweetActions from "../../Redux/Actions/tweetActions";
+import React from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { Link } from 'react-router-dom';
+import TweetActions from '../../Redux/Actions/tweetActions';
 
 const SingleTweet = props => {
+  const currentUserId = useSelector(state => state.currentUser.id);
+  const dispatch = useDispatch();
+
   const handleDeleteTweet = () => {
-    const { deleteTweetFromDB } = props;
-    deleteTweetFromDB(props.id);
+    dispatch(TweetActions.deleteTweetFromDB(props.id));
   };
 
   const deleteButton = () => {
-    return props.currentUserId === props.user.id ? (
+    return currentUserId === props.user.id ? (
       <button onClick={handleDeleteTweet}>Delete Tweet</button>
     ) : null;
   };
 
   const likeButton = () => {
-    const { likes, currentUserId } = props;
+    const { likes } = props;
     const liked = likes.find(like => like.user_id === currentUserId);
 
     return liked ? (
@@ -31,35 +33,21 @@ const SingleTweet = props => {
   };
 
   const handleLike = e => {
-    const { deleteLikeFromDB, newLikeToDB, id } = props;
-    e.target.className === "like-button"
-      ? newLikeToDB(id)
-      : deleteLikeFromDB(id);
-    // newLikeToDB(id);
-    // deleteLikeFromDB(id);
+    const { id } = props;
+    e.target.className === 'like-button'
+      ? dispatch(TweetActions.newLikeToDB(id))
+      : dispatch(TweetActions.deleteLikeFromDB(id));
   };
 
   const retweetButton = () => {
-    const { handleRetweetToDB } = props;
-    return <button onClick={() => handleRetweetToDB(props.id)}>Retweet</button>;
+    return (
+      <button
+        onClick={() => dispatch(TweetActions.handleRetweetToDB(props.id))}
+      >
+        Retweet
+      </button>
+    );
   };
-
-  // const handleRetweet = tweetId => {
-  //   const config = {
-  //     method: "POST",
-  //     headers: {
-  //       "Content-Type": "application/json",
-  //       Accept: "application/json",
-  //       Authorization: `bearer ` + localStorage.token
-  //     },
-  //     body: JSON.stringify({ tweet_id: tweetId })
-  //   };
-  //   fetch("http://localhost:3000/retweets", config)
-  //     .then(r => r.json())
-  //     .then(tweet => {
-  //       debugger;
-  //     });
-  // };
 
   return (
     <div className="single-tweet">
@@ -83,17 +71,4 @@ const SingleTweet = props => {
   );
 };
 
-const mapDispatchToProps = {
-  deleteTweetFromDB: TweetActions.deleteTweetFromDB,
-  newLikeToDB: TweetActions.newLikeToDB,
-  deleteLikeFromDB: TweetActions.deleteLikeFromDB,
-  handleRetweetToDB: TweetActions.handleRetweetToDB
-};
-
-const mapStateToProps = state => ({
-  currentUserId: state.currentUser.id
-});
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(SingleTweet);
+export default SingleTweet;

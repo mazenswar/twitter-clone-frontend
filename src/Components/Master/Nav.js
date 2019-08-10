@@ -1,14 +1,17 @@
-import React from "react";
-import { connect } from "react-redux";
-import { Link } from "react-router-dom";
-import userActions from "../../Redux/Actions/userActions";
+import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
+import userActions from '../../Redux/Actions/userActions';
 
 const Nav = props => {
+  const dispatch = useDispatch();
+  const user = useSelector(state => state.currentUser);
+
   const userLinks = () => (
     <nav>
       <Link to="/">Home</Link>
       <Link to="/profile">Profile</Link>
-      <Link to="/" onClick={props.logoutUser}>
+      <Link to="/" onClick={() => dispatch(userActions.logoutUser())}>
         Logout
       </Link>
     </nav>
@@ -22,14 +25,7 @@ const Nav = props => {
     </nav>
   );
 
-  return props.username ? userLinks() : visitorLinks();
+  return user.username ? userLinks() : visitorLinks();
 };
 
-const mapDispatchToProps = {
-  logoutUser: userActions.logoutUser
-};
-const mapStateToProps = state => ({ username: state.currentUser.username });
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Nav);
+export default Nav;

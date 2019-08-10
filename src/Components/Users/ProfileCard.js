@@ -1,8 +1,9 @@
-import React from "react";
-import { connect } from "react-redux";
+import React from 'react';
+import { useSelector } from 'react-redux';
 
 const ProfileCard = props => {
-  const { currentUser } = props;
+  const currentUser = useSelector(state => state.currentUser);
+
   return (
     <div className="profile-card-container">
       <h5>
@@ -13,9 +14,4 @@ const ProfileCard = props => {
   );
 };
 
-const mapStateToProps = state => ({ currentUser: state.currentUser });
-
-export default connect(
-  mapStateToProps,
-  null
-)(ProfileCard);
+export default ProfileCard;

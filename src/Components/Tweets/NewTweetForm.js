@@ -1,44 +1,34 @@
-import React, { Component } from "react";
-import { connect } from "react-redux";
-import tweetActions from "../../Redux/Actions/tweetActions";
+import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import tweetActions from '../../Redux/Actions/tweetActions';
 
-class NewTweetForm extends Component {
-  state = {
-    content: ""
-  };
+const NewTweetForm = () => {
+  const [tweetForm, setTweetForm] = useState({ content: '' });
+  const dispatch = useDispatch();
 
-  handleSubmit = e => {
+  const handleChange = e => setTweetForm({ content: e.target.value });
+  const handleSubmit = e => {
     e.preventDefault();
-    const { newTweetToDB } = this.props;
-    newTweetToDB(this.state);
-    this.setState({ content: "" });
+    dispatch(tweetActions.newTweetToDB(tweetForm));
+    setTweetForm({ content: '' });
   };
-  handleChange = e => this.setState({ content: e.target.value });
-  render() {
-    return (
-      <form className="new-tweet-form" onSubmit={this.handleSubmit}>
-        <div className="tweet-form-content-div">
-          <div className="user-profile-img" />
-          <textarea
-            type="text"
-            value={this.state.content}
-            onChange={this.handleChange}
-            placeholder="What's on your mind?"
-          />
-        </div>
-        <div className="tweet-form-buttons-div">
-          <input type="submit" value="tweet" />
-        </div>
-      </form>
-    );
-  }
-}
 
-const mapDispatchToProps = {
-  newTweetToDB: tweetActions.newTweetToDB
+  return (
+    <form className="new-tweet-form" onSubmit={handleSubmit}>
+      <div className="tweet-form-content-div">
+        <div className="user-profile-img" />
+        <textarea
+          type="text"
+          value={tweetForm.content}
+          onChange={handleChange}
+          placeholder="What's on your mind?"
+        />
+      </div>
+      <div className="tweet-form-buttons-div">
+        <input type="submit" value="tweet" />
+      </div>
+    </form>
+  );
 };
 
-export default connect(
-  null,
-  mapDispatchToProps
-)(NewTweetForm);
+export default NewTweetForm;

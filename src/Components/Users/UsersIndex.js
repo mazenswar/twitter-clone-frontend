@@ -1,21 +1,19 @@
-import React, { Component } from "react";
-import { Link } from "react-router-dom";
+import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 
-export default class UsersIndex extends Component {
-  state = {
-    users: []
-  };
-
-  componentDidMount() {
-    fetch("http://localhost:3000/users")
+const UsersIndex = () => {
+  const [users, setUsers] = useState([]);
+  useEffect(() => {
+    fetch('http://localhost:3000/users')
       .then(r => r.json())
       .then(usersArr => {
-        this.setState({ users: usersArr });
+        setUsers(usersArr);
       });
-  }
+  }, []);
 
-  renderUsers = () => {
-    const { users } = this.state;
+  console.log(users);
+
+  const renderUsers = () => {
     return users.map(user => (
       <Link key={user.id} to={`/users/${user.id}`}>
         {user.username}
@@ -23,7 +21,6 @@ export default class UsersIndex extends Component {
     ));
   };
 
-  render() {
-    return <div>{this.renderUsers()}</div>;
-  }
-}
+  return <div>{renderUsers()}</div>;
+};
+export default UsersIndex;

@@ -1,45 +1,29 @@
-import React, { Component } from "react";
-import { connect } from "react-redux";
-import TweetsActions from "../../Redux/Actions/tweetActions";
-import TweetComponents from ".";
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import TweetsActions from '../../Redux/Actions/tweetActions';
+import TweetComponents from '.';
 
-class Timeline extends Component {
-  componentDidMount() {
-    this.getTweets();
-  }
+const Timeline = () => {
+  const dispatch = useDispatch();
+  const timelineTweets = useSelector(state => state.tweets);
+  useEffect(() => {
+    dispatch(TweetsActions.fetchTimelineTweetsFromDB());
+  }, [dispatch]);
 
-  async getTweets() {
-    await localStorage.token;
-    const { fetchTimelineTweetsFromDB } = this.props;
-    fetchTimelineTweetsFromDB();
-  }
-
-  renderTweets = () => {
-    const { tweets } = this.props;
-    if (tweets.length) {
-      return tweets.map(tweet => (
-        <TweetComponents.SingleTweet key={`timeline-${tweet.id}`} {...tweet} />
-      ));
-    }
+  const renderTweets = () => {
+    // if (timelineTweets.length) {
+    return timelineTweets.map(tweet => (
+      <TweetComponents.SingleTweet key={`timeline-${tweet.id}`} {...tweet} />
+    ));
+    // }
   };
 
-  render() {
-    return (
-      <div>
-        <h1>Hello from the timeline</h1>
-        {this.renderTweets()}
-      </div>
-    );
-  }
-}
-
-const mapDispatchToProps = {
-  fetchTimelineTweetsFromDB: TweetsActions.fetchTimelineTweetsFromDB
+  return (
+    <div>
+      <h1>Hello from the timeline</h1>
+      {renderTweets()}
+    </div>
+  );
 };
-const mapStateToProps = state => ({
-  tweets: state.tweets
-});
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Timeline);
+
+export default Timeline;
