@@ -5,7 +5,9 @@ import userActions from '../../Redux/Actions/userActions';
 
 const Nav = props => {
   const dispatch = useDispatch();
-  const user = useSelector(state => state.currentUser);
+  const userID = useSelector(state =>
+    state.currentUser.data ? state.currentUser.data.id : {}
+  );
 
   const userLinks = () => (
     <nav>
@@ -25,7 +27,7 @@ const Nav = props => {
     </nav>
   );
 
-  return user.username ? userLinks() : visitorLinks();
+  return userID ? userLinks() : visitorLinks();
 };
 
 export default Nav;

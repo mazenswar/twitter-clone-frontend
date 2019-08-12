@@ -5,7 +5,8 @@ import userActions from '../Redux/Actions/userActions';
 import tweetActions from '../Redux/Actions/tweetActions';
 
 const ProfilePage = props => {
-  const currentUser = useSelector(state => state.currentUser);
+  const currentUserID = useSelector(state => state.currentUser.data.id);
+
   const dispatch = useDispatch();
   // const [userTweets, setUserTweets] = useState([]);
   const [editMode, setEditMode] = useState(false);
@@ -22,7 +23,7 @@ const ProfilePage = props => {
   };
 
   const handleDelete = () => {
-    dispatch(userActions.deleteUserFromDB(currentUser.id));
+    dispatch(userActions.deleteUserFromDB(currentUserID.id));
     props.history.push('/');
   };
 

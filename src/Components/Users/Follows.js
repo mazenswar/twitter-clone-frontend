@@ -3,8 +3,12 @@ import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 const Follows = props => {
-  const followers = useSelector(state => state.currentUser.followers);
-  const followees = useSelector(state => state.currentUser.followees);
+  const followers = useSelector(
+    state => state.currentUser.attributes.followers
+  );
+  const followees = useSelector(
+    state => state.currentUser.attributes.followees
+  );
 
   const renderFollowers = () => {
     return followers.map(follower => (

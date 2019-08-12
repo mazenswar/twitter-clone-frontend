@@ -6,9 +6,12 @@ import TweetActions from '../Redux/Actions/tweetActions';
 
 const ShowPage = props => {
   const dispatch = useDispatch();
-  const currentUser = useSelector(state => state.currentUser);
-  const showUser = useSelector(state => state.showUser);
-  const tweets = useSelector(state => state.tweets);
+  const currentUserID = useSelector(state => state.currentUser.data.id);
+  const showUser = useSelector(state =>
+    state.showUser.data ? state.showUser.data.attributes : ''
+  );
+  const tweets = useSelector(state => state.tweets.data);
+  console.log(tweets);
 
   useEffect(() => {
     const userId = props.match.params.id;
@@ -17,7 +20,7 @@ const ShowPage = props => {
   }, [dispatch, props.match.params.id]);
 
   const renderTweets = () => {
-    if (showUser.tweets) {
+    if (tweets) {
       return tweets.map(tweet => {
         return (
           <TweetComponents.SingleTweet key={`show-${tweet.id}`} {...tweet} />
@@ -37,7 +40,7 @@ const ShowPage = props => {
   const followButton = () => {
     if (showUser.followers) {
       const follower = showUser.followers.find(
-        user => user.id === currentUser.id
+        user => user.id === currentUserID
       );
       return follower ? (
         <button onClick={handleFollow}>Unfollow</button>

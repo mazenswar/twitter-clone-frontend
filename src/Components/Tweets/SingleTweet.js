@@ -4,7 +4,10 @@ import { Link } from 'react-router-dom';
 import TweetActions from '../../Redux/Actions/tweetActions';
 
 const SingleTweet = props => {
-  const currentUserId = useSelector(state => state.currentUser.id);
+  const currentUserId = useSelector(state =>
+    state.currentUser.data ? state.currentUser.data.id : ''
+  );
+
   const dispatch = useDispatch();
 
   const handleDeleteTweet = () => {
@@ -12,14 +15,15 @@ const SingleTweet = props => {
   };
 
   const deleteButton = () => {
-    return currentUserId === props.user.id ? (
+    return currentUserId === props.user_id ? (
       <button onClick={handleDeleteTweet}>Delete Tweet</button>
     ) : null;
   };
 
   const likeButton = () => {
-    const { likes } = props;
-    const liked = likes.find(like => like.user_id === currentUserId);
+    const liked = props.attributes.likes.find(
+      like => like.user_id === currentUserId
+    );
 
     return liked ? (
       <button onClick={handleLike} className="unlike-button">
@@ -52,21 +56,22 @@ const SingleTweet = props => {
   return (
     <div className="single-tweet">
       <div className="single-tweet-header">
-        <span>
-          {props.user.first_name} {props.user.last_name}
-        </span>
-        <Link to={`/users/${props.user.id}`} className="single-tweet-username">
-          @{props.user.username}
+        <span>{props.attributes.fullname}</span>
+        <Link
+          to={`/users/${props.attributes.user_id}`}
+          className="single-tweet-username"
+        >
+          @{props.attributes.username}
         </Link>
-        <span>{new Date(props.created_at).toDateString()}</span>
+        <span>{new Date(props.attributes.created_at).toDateString()}</span>
       </div>
-      <span className="single-tweet-content">{props.content}</span>
+      <span className="single-tweet-content">{props.attributes.content}</span>
       {deleteButton()}
 
       {likeButton()}
       {retweetButton()}
-      <p>Likes: {props.likes.length}</p>
-      <p>Retweets: {props.retweets.length}</p>
+      <p>Likes: {props.attributes.likes.length}</p>
+      <p>Retweets: {props.attributes.retweets.length}</p>
     </div>
   );
 };

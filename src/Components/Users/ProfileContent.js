@@ -5,12 +5,14 @@ import ProfileCard from './ProfileCard';
 import '../../Stylesheets/Users/profile.scss';
 
 const ProfileContent = props => {
-  const userTweets = useSelector(state => state.tweets);
+  const userTweets = useSelector(state => state.tweets.data);
 
   const renderTweets = () => {
-    return userTweets.map(tweet => (
-      <TweetComponents.SingleTweet key={`profile-${tweet.id}`} {...tweet} />
-    ));
+    if (userTweets) {
+      return userTweets.map(tweet => (
+        <TweetComponents.SingleTweet key={`profile-${tweet.id}`} {...tweet} />
+      ));
+    }
   };
 
   return (

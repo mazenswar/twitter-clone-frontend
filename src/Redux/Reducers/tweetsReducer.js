@@ -2,20 +2,26 @@ const initialState = [];
 
 export default (state = initialState, { type, payload }) => {
   switch (type) {
-    case "FETCH_TIMELINE_TWEETS":
-    case "FETCH_CU_TWEETS":
-    case "FETCH_SU_TWEETS":
-      return payload;
-    case "CREATE_TWEET":
-      return [payload, ...state];
-    case "DELETE_TWEET":
+    case 'FETCH_TIMELINE_TWEETS':
+    case 'FETCH_CU_TWEETS':
+    case 'FETCH_SU_TWEETS':
+      return payload.data;
+    case 'CREATE_TWEET':
+      return [payload.data, ...state];
+    case 'DELETE_TWEET':
       return removeTweet(state, payload);
-    case "UPDATE_LIKES":
+    case 'UPDATE_LIKES':
       return updateTweets(state, payload);
-    case "RETWEET":
-      return updateTweets(state, payload);
+    case 'RETWEET':
+      return handleRetweet(state, payload);
     default:
       return state;
+  }
+};
+
+const handleRetweet = (tweets, obj) => {
+  if (obj.data.attributes.rt) {
+    return [obj.data, ...updateTweets(tweets, obj.data.attributes.tweet)];
   }
 };
 
@@ -27,7 +33,7 @@ const removeTweet = (tweets, tweetId) => {
 
 const updateTweets = (tweets, updatedTweet) => {
   return tweets.map(tweet =>
-    tweet.id === updatedTweet.id ? updatedTweet : tweet
+    tweet.id === updatedTweet.data.id ? updatedTweet.data : tweet
   );
 };
 

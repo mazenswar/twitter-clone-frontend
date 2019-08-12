@@ -4,40 +4,40 @@ import {
   LIKES_URL,
   TIMELINE_URL,
   SHOW_TWEETS_URL
-} from "../../API_CONSTANTS";
+} from '../../API_CONSTANTS';
 
 // ACTIONS
 const handleRetweetAction = tweet => ({
-  type: "RETWEET",
+  type: 'RETWEET',
   payload: tweet
 });
 
 const newTweetAction = tweet => ({
-  type: "CREATE_TWEET",
+  type: 'CREATE_TWEET',
   payload: tweet
 });
 
 const deleteTweetAction = tweetId => ({
-  type: "DELETE_TWEET",
+  type: 'DELETE_TWEET',
   payload: tweetId
 });
 
 const fetchUserTweetsAction = tweets => ({
-  type: "FETCH_CU_TWEETS",
+  type: 'FETCH_CU_TWEETS',
   payload: tweets
 });
 const fetchViewUserTweetsAction = tweets => ({
-  type: "FETCH_SU_TWEETS",
+  type: 'FETCH_SU_TWEETS',
   payload: tweets
 });
 
 const fetchTimelineTweetsAction = tweets => ({
-  type: "FETCH_TIMELINE_TWEETS",
+  type: 'FETCH_TIMELINE_TWEETS',
   payload: tweets
 });
 
 const updateLikes = tweet => ({
-  type: "UPDATE_LIKES",
+  type: 'UPDATE_LIKES',
   payload: tweet
 });
 
@@ -45,26 +45,28 @@ const updateLikes = tweet => ({
 
 const handleRetweetToDB = tweetId => dispatch => {
   const config = {
-    method: "POST",
+    method: 'POST',
     headers: {
-      "Content-Type": "application/json",
-      Accept: "application/json",
+      'Content-Type': 'application/json',
+      Accept: 'application/json',
       Authorization: `bearer ` + localStorage.token
     },
     body: JSON.stringify({ tweet_id: tweetId })
   };
-  fetch("http://localhost:3000/retweets", config)
+  fetch('http://localhost:3000/retweets', config)
     .then(r => r.json())
     .then(tweet => {
-      if (!tweet.errors) {
+      if (tweet.data.attributes.rt) {
         dispatch(handleRetweetAction(tweet));
+      } else {
+        dispatch(updateLikes(tweet));
       }
     });
 };
 
 const fetchUserTweetsFromDB = () => dispatch => {
   fetch(USER_TWEETS_URL, {
-    headers: { Authorization: "bearer " + localStorage.token }
+    headers: { Authorization: 'bearer ' + localStorage.token }
   })
     .then(r => r.json())
     .then(tweetsArr => {
@@ -92,10 +94,10 @@ const fetchTimelineTweetsFromDB = () => dispatch => {
 
 const newTweetToDB = tweetObj => dispatch => {
   const config = {
-    method: "POST",
+    method: 'POST',
     headers: {
-      "Content-Type": "application/json",
-      Authorization: "bearer " + localStorage.token
+      'Content-Type': 'application/json',
+      Authorization: 'bearer ' + localStorage.token
     },
     body: JSON.stringify(tweetObj)
   };
@@ -109,7 +111,7 @@ const newTweetToDB = tweetObj => dispatch => {
 
 const deleteTweetFromDB = tweetId => dispatch => {
   fetch(`${TWEETS_URL}/${tweetId}`, {
-    method: "DELETE"
+    method: 'DELETE'
   }).then(r => {
     dispatch(deleteTweetAction(tweetId));
   });
@@ -117,10 +119,10 @@ const deleteTweetFromDB = tweetId => dispatch => {
 
 const newLikeToDB = tweetId => dispatch => {
   const config = {
-    method: "POST",
+    method: 'POST',
     headers: {
-      "Content-Type": "application/json",
-      Accept: "application/json",
+      'Content-Type': 'application/json',
+      Accept: 'application/json',
       Authorization: `bearer ` + localStorage.token
     },
     body: JSON.stringify({ tweet_id: tweetId })
@@ -136,10 +138,10 @@ const newLikeToDB = tweetId => dispatch => {
 
 const deleteLikeFromDB = tweetId => dispatch => {
   const config = {
-    method: "DELETE",
+    method: 'DELETE',
     headers: {
-      "Content-Type": "application/json",
-      Accept: "application/json",
+      'Content-Type': 'application/json',
+      Accept: 'application/json',
       Authorization: `bearer ` + localStorage.token
     },
     body: JSON.stringify({ tweet_id: tweetId })

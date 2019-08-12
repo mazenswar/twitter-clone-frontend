@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import userActions from '../../Redux/Actions/userActions';
 
 const ProfileEdit = props => {
-  const currentUser = useSelector(state => state.currentUser);
+  const currentUser = useSelector(state => state.currentUser.data.attributes);
   const [editForm, setEditForm] = useState({ ...currentUser });
   const dispatch = useDispatch();
   //

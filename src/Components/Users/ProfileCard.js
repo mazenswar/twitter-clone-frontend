@@ -2,7 +2,10 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 
 const ProfileCard = props => {
-  const currentUser = useSelector(state => state.currentUser);
+  const currentUser = useSelector(state =>
+    state.currentUser.data ? state.currentUser.data.attributes : ''
+  );
+  console.log(currentUser);
 
   return (
     <div className="profile-card-container">
