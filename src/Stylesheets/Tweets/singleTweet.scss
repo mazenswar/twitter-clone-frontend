@@ -4,8 +4,12 @@
   width: 100%;
   max-width: 100%;
   background: #eee;
-  margin: 1vw 0;
   padding: 1vw;
+  border-bottom: 1px solid black;
+  button {
+    background-color: red;
+    width: 15%;
+  }
   .single-tweet-header {
     display: flex;
     justify-content: space-between;

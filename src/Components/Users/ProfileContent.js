@@ -1,11 +1,11 @@
-import React from 'react';
-import { useSelector } from 'react-redux';
-import TweetComponents from '../Tweets';
-import ProfileCard from './ProfileCard';
-import '../../Stylesheets/Users/profile.scss';
+import React from "react";
+import { useSelector } from "react-redux";
+import TweetComponents from "../Tweets";
+import ProfileCard from "./ProfileCard";
+import "../../Stylesheets/Users/profile.scss";
 
 const ProfileContent = props => {
-  const userTweets = useSelector(state => state.tweets.data);
+  const userTweets = useSelector(state => state.tweets);
 
   const renderTweets = () => {
     if (userTweets) {

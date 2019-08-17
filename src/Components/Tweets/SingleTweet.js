@@ -1,11 +1,11 @@
-import React from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { Link } from 'react-router-dom';
-import TweetActions from '../../Redux/Actions/tweetActions';
+import React from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { Link } from "react-router-dom";
+import TweetActions from "../../Redux/Actions/tweetActions";
 
 const SingleTweet = props => {
   const currentUserId = useSelector(state =>
-    state.currentUser.data ? state.currentUser.data.id : ''
+    state.currentUser.data ? state.currentUser.data.id : ""
   );
 
   const dispatch = useDispatch();
@@ -27,18 +27,18 @@ const SingleTweet = props => {
 
     return liked ? (
       <button onClick={handleLike} className="unlike-button">
-        Unlike
+        ♥
       </button>
     ) : (
       <button onClick={handleLike} className="like-button">
-        Like
+        ♥
       </button>
     );
   };
 
   const handleLike = e => {
     const { id } = props;
-    e.target.className === 'like-button'
+    e.target.className === "like-button"
       ? dispatch(TweetActions.newLikeToDB(id))
       : dispatch(TweetActions.deleteLikeFromDB(id));
   };
