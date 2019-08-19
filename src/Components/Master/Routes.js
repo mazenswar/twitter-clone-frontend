@@ -4,7 +4,7 @@ import { Switch, Route } from 'react-router-dom';
 import Pages from '../../Pages';
 
 const Routes = props => {
-  const user = useSelector(state => state.currentUser.data);
+  const user = useSelector(state => state.currentUser);
   const userRoutes = () => (
     <React.Fragment>
       <Route path="/profile" component={Pages.Profile} />
@@ -12,6 +12,7 @@ const Routes = props => {
       <Route exact path="/" component={Pages.Home} />
       <Route exact path="/users" component={Pages.UsersIndex} />
       <Route exact path="/users/:id" component={Pages.Show} />
+      <Route exact path="/hashtags/:id" component={Pages.HashtagShow} />
     </React.Fragment>
   );
 
@@ -23,7 +24,7 @@ const Routes = props => {
     </React.Fragment>
   );
 
-  return <Switch>{user ? userRoutes() : visitorRoutes()}</Switch>;
+  return <Switch>{user.id ? userRoutes() : visitorRoutes()}</Switch>;
 };
 
 export default Routes;

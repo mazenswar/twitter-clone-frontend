@@ -12,16 +12,17 @@ const Timeline = () => {
   }, [dispatch]);
 
   const renderTweets = () => {
+    // debugger;
     if (timelineTweets) {
       return timelineTweets.map(tweet =>
-        tweet.attributes.rt ? (
+        tweet.rt ? (
           <TweetComponents.Retweet
-            key={`rt-timline-${tweet.attributes.user_id}-${tweet.id}`}
+            key={`rt-timeline-${tweet.user_id}-${tweet.id}`}
             {...tweet}
           />
         ) : (
           <TweetComponents.SingleTweet
-            key={`timline-${tweet.attributes.user_id}-${tweet.id}`}
+            key={`timeline-${tweet.user_id}-${tweet.id}`}
             {...tweet}
           />
         )

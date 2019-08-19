@@ -6,11 +6,11 @@ import TweetActions from '../Redux/Actions/tweetActions';
 
 const ShowPage = props => {
   const dispatch = useDispatch();
-  const currentUserID = useSelector(state => state.currentUser.data.id);
+  const currentUserID = useSelector(state => state.currentUser.id);
   const showUser = useSelector(state =>
-    state.showUser.data ? state.showUser.data.attributes : ''
+    state.showUser.id ? state.showUser : ''
   );
-  const tweets = useSelector(state => state.tweets.data);
+  const tweets = useSelector(state => state.tweets);
   console.log(tweets);
 
   useEffect(() => {

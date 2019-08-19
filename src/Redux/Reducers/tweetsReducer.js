@@ -5,9 +5,9 @@ export default (state = initialState, { type, payload }) => {
     case 'FETCH_TIMELINE_TWEETS':
     case 'FETCH_CU_TWEETS':
     case 'FETCH_SU_TWEETS':
-      return payload.data;
+      return payload;
     case 'CREATE_TWEET':
-      return [payload.data, ...state];
+      return [payload, ...state];
     case 'DELETE_TWEET':
       return removeTweet(state, payload);
     case 'UPDATE_LIKES':
@@ -19,9 +19,16 @@ export default (state = initialState, { type, payload }) => {
   }
 };
 
+// RETWEET HELPER
+
 const handleRetweet = (tweets, obj) => {
-  if (obj.data.attributes.rt) {
-    return [obj.data, ...updateTweets(tweets, obj.data.attributes.tweet)];
+  if (obj.retweet_id) {
+    const newTweets = tweets.filter(tweet => {
+      return !obj.rt && tweet.id !== obj.retweet_id;
+    });
+    return updateTweets(newTweets, obj.tweet);
+  } else {
+    return [obj, ...updateTweets(tweets, obj.tweet)];
   }
 };
 
@@ -33,7 +40,7 @@ const removeTweet = (tweets, tweetId) => {
 
 const updateTweets = (tweets, updatedTweet) => {
   return tweets.map(tweet =>
-    tweet.id === updatedTweet.data.id ? updatedTweet.data : tweet
+    tweet.id === updatedTweet.id ? updatedTweet : tweet
   );
 };
 

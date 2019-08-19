@@ -6,7 +6,7 @@ import userActions from '../../Redux/Actions/userActions';
 const Nav = props => {
   const dispatch = useDispatch();
   const userID = useSelector(state =>
-    state.currentUser.data ? state.currentUser.data.id : {}
+    state.currentUser.id ? state.currentUser.id : {}
   );
 
   const userLinks = () => (

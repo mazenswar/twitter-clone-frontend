@@ -56,11 +56,7 @@ const handleRetweetToDB = tweetId => dispatch => {
   fetch('http://localhost:3000/retweets', config)
     .then(r => r.json())
     .then(tweet => {
-      if (tweet.data.attributes.rt) {
-        dispatch(handleRetweetAction(tweet));
-      } else {
-        dispatch(updateLikes(tweet));
-      }
+      dispatch(handleRetweetAction(tweet));
     });
 };
 

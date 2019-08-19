@@ -2,10 +2,11 @@ import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import TweetActions from '../../Redux/Actions/tweetActions';
+import { renderContent } from './helpers';
 
 const SingleTweet = props => {
   const currentUserId = useSelector(state =>
-    state.currentUser.data ? state.currentUser.data.id : ''
+    state.currentUser ? state.currentUser.id : ''
   );
 
   const dispatch = useDispatch();
@@ -21,9 +22,7 @@ const SingleTweet = props => {
   };
 
   const likeButton = () => {
-    const liked = props.attributes.likes.find(
-      like => like.user_id === currentUserId
-    );
+    const liked = props.likes.find(like => like.user_id === currentUserId);
 
     return liked ? (
       <button onClick={handleLike} className="unlike-button">
@@ -56,22 +55,22 @@ const SingleTweet = props => {
   return (
     <div className="single-tweet">
       <div className="single-tweet-header">
-        <span>{props.attributes.fullname}</span>
-        <Link
-          to={`/users/${props.attributes.user_id}`}
-          className="single-tweet-username"
-        >
-          @{props.attributes.username}
+        <span>{props.fullname}</span>
+        <Link to={`/users/${props.user_id}`} className="single-tweet-username">
+          @{props.username}
         </Link>
-        <span>{new Date(props.attributes.created_at).toDateString()}</span>
+        <span>{new Date(props.created_at).toDateString()}</span>
       </div>
-      <span className="single-tweet-content">{props.attributes.content}</span>
+      <span className="single-tweet-content">
+        {renderContent(props.content, props.hashtags)}
+      </span>
+
       {deleteButton()}
 
       {likeButton()}
       {retweetButton()}
-      <p>Likes: {props.attributes.likes.length}</p>
-      <p>Retweets: {props.attributes.retweets.length}</p>
+      <p>Likes: {props.likes.length}</p>
+      <p>Retweets: {props.retweets.length}</p>
     </div>
   );
 };

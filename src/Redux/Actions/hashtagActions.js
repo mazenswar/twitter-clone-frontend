@@ -1,0 +1,18 @@
+import { HASHTAGS_URL } from '../../API_CONSTANTS';
+
+const setHashtag = hashtag => ({
+  type: 'GET_HASHTAG',
+  payload: hashtag
+});
+
+const getHashtagFromDB = id => dispatch => {
+  fetch(`${HASHTAGS_URL}/${id}`)
+    .then(r => r.json())
+    .then(hashtag => {
+      dispatch(setHashtag(hashtag));
+    });
+};
+
+export default {
+  getHashtagFromDB
+};
