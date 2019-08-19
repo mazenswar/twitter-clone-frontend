@@ -26,11 +26,11 @@ const SingleTweet = props => {
 
     return liked ? (
       <button onClick={handleLike} className="unlike-button">
-        Unlike
+        ♥
       </button>
     ) : (
       <button onClick={handleLike} className="like-button">
-        Like
+        ♥
       </button>
     );
   };

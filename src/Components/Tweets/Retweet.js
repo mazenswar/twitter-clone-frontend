@@ -1,12 +1,10 @@
-import React from 'react';
+import React from "react";
 // import { useSelector, useDispatch } from 'react-redux';
 // import { Link } from 'react-router-dom';
 // import TweetActions from '../../Redux/Actions/tweetActions';
 import SingleTweet from './SingleTweet';
 
 const Retweet = props => {
-  console.log(props);
-
   return (
     <div className="single-retweet">
       <h1>Retweet by: {props.username}</h1>
