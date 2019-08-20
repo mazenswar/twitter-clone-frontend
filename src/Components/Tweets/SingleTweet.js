@@ -8,7 +8,6 @@ const SingleTweet = props => {
   const currentUserId = useSelector(state =>
     state.currentUser ? state.currentUser.id : ''
   );
-
   const dispatch = useDispatch();
 
   const handleDeleteTweet = () => {
@@ -16,7 +15,7 @@ const SingleTweet = props => {
   };
 
   const deleteButton = () => {
-    return currentUserId === props.user_id ? (
+    return currentUserId === props.user_id && props.del !== false ? (
       <button onClick={handleDeleteTweet}>Delete Tweet</button>
     ) : null;
   };
