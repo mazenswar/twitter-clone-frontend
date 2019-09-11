@@ -3,12 +3,22 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import TweetActions from '../../Redux/Actions/tweetActions';
 import { renderContent } from './helpers';
+import retweetIcon from '../../Assets/icons/retweet-icon.js';
 
-const SingleTweet = props => {
+const SingleTweet = React.memo(props => {
+  console.log('triggereddddddd');
   const currentUserId = useSelector(state =>
     state.currentUser ? state.currentUser.id : ''
   );
   const dispatch = useDispatch();
+
+  const handleLike = e => {
+    const { id } = props;
+    return e.target.parentElement.className === 'like-button' ||
+      e.target.className === 'like-button'
+      ? dispatch(TweetActions.newLikeToDB(id))
+      : dispatch(TweetActions.deleteLikeFromDB(id));
+  };
 
   const handleDeleteTweet = () => {
     dispatch(TweetActions.deleteTweetFromDB(props.id));
@@ -16,62 +26,81 @@ const SingleTweet = props => {
 
   const deleteButton = () => {
     return currentUserId === props.user_id && props.del !== false ? (
-      <button onClick={handleDeleteTweet}>Delete Tweet</button>
+      <div onClick={handleDeleteTweet}>🗑</div>
     ) : null;
   };
 
   const likeButton = () => {
     const liked = props.likes.find(like => like.user_id === currentUserId);
-
+    // debugger;
     return liked ? (
-      <button onClick={handleLike} className="unlike-button">
-        ♥
-      </button>
+      <div className="unlike-button liked" onClick={handleLike}>
+        <span>♥</span>
+        <p>{`   ${props.likes.length}`}</p>
+      </div>
     ) : (
-      <button onClick={handleLike} className="like-button">
-        ♥
-      </button>
+      <div className="like-button" onClick={handleLike}>
+        <span>♥</span> <p>{`   ${props.likes.length}`}</p>
+      </div>
     );
-  };
-
-  const handleLike = e => {
-    const { id } = props;
-    e.target.className === 'like-button'
-      ? dispatch(TweetActions.newLikeToDB(id))
-      : dispatch(TweetActions.deleteLikeFromDB(id));
   };
 
   const retweetButton = () => {
-    return (
-      <button
-        onClick={() => dispatch(TweetActions.handleRetweetToDB(props.id))}
+    const { id, retweets } = props;
+    const retweeted = retweets.some(t => t.user_id === currentUserId);
+    return retweeted ? (
+      <div
+        className="liked"
+        onClick={() => dispatch(TweetActions.handleRetweetToDB(id))}
       >
-        Retweet
-      </button>
+        {retweetIcon}
+        {`   ${retweets.length}`}
+      </div>
+    ) : (
+      <div onClick={() => dispatch(TweetActions.handleRetweetToDB(id))}>
+        {retweetIcon}
+        {`   ${retweets.length}`}
+      </div>
     );
   };
+  ////////////////////////////
 
+  const {
+    id,
+    fullname,
+    user_id,
+    username,
+    content,
+    hashtags,
+    created_at,
+    mentions
+  } = props;
   return (
     <div className="single-tweet">
       <div className="single-tweet-header">
-        <span>{props.fullname}</span>
-        <Link to={`/users/${props.user_id}`} className="single-tweet-username">
-          @{props.username}
+        <div className="single-tweet-user-img" />
+        <Link to={`/users/${user_id}`} className="single-tweet-fullname">
+          {fullname}
         </Link>
-        <span>{new Date(props.created_at).toDateString()}</span>
+
+        <Link to={`/users/${user_id}`} className="single-tweet-username">
+          @{username}
+        </Link>
+        <span className="single-tweet-date">
+          {new Date(created_at).toDateString()}
+        </span>
       </div>
       <span className="single-tweet-content">
-        {renderContent(props.content, props.hashtags)}
+        {renderContent(content, hashtags, mentions)}
       </span>
 
-      {deleteButton()}
-
-      {likeButton()}
-      {retweetButton()}
-      <p>Likes: {props.likes.length}</p>
-      <p>Retweets: {props.retweets.length}</p>
+      <div className="single-tweet-footer">
+        {deleteButton()}
+        {likeButton()}
+        {retweetButton()}
+      </div>
     </div>
   );
-};
+});
 
 export default SingleTweet;

@@ -13,6 +13,7 @@ const Routes = props => {
       <Route exact path="/users" component={Pages.UsersIndex} />
       <Route exact path="/users/:id" component={Pages.Show} />
       <Route exact path="/hashtags/:id" component={Pages.HashtagShow} />
+      <Route exact path="/test" component={Pages.Test} />
     </React.Fragment>
   );
 

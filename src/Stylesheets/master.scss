@@ -1,3 +1,14 @@
+$black: #000;
+$blue: #0000ee;
+$light-grey: #8899a6;
+$dark-grey: #14171a;
+$black-pearl: #15202b;
+$grey-pearl: #192734;
+$white: #ffffff;
+$light-blue: #1da1f2;
+$strong-blue: #1b95e0;
+$green: #17bf63;
+$red: #e0245e;
 $dg: #262626;
 $lg: #eee;
 
@@ -16,6 +27,8 @@ body,
   min-height: 100%;
   width: 100%;
   min-width: 100%;
+  background-color: $black-pearl;
+  color: $white;
 }
 
 #root {
@@ -28,7 +41,7 @@ body,
     flex-direction: column;
     justify-content: flex-start;
     padding: 1vw;
-    background-color: $dg;
+    border-right: 1px solid $light-grey;
     a {
       margin: 0 1vw;
       text-decoration: none;
@@ -38,4 +51,12 @@ body,
   .main-content {
     grid-column: 2;
   }
+}
+
+.grey {
+  color: $light-grey;
+}
+
+.num {
+  font-weight: bold;
 }

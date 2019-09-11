@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import TweetComponents from '../Components/Tweets';
+import UserComponents from '../Components/Users';
 import ShowActions from '../Redux/Actions/showActions';
 import TweetActions from '../Redux/Actions/tweetActions';
 
@@ -11,7 +12,6 @@ const ShowPage = props => {
     state.showUser.id ? state.showUser : ''
   );
   const tweets = useSelector(state => state.tweets);
-  console.log(tweets);
 
   useEffect(() => {
     const userId = props.match.params.id;
@@ -20,12 +20,21 @@ const ShowPage = props => {
   }, [dispatch, props.match.params.id]);
 
   const renderTweets = () => {
+    // debugger;
     if (tweets) {
-      return tweets.map(tweet => {
-        return (
-          <TweetComponents.SingleTweet key={`show-${tweet.id}`} {...tweet} />
-        );
-      });
+      return tweets.map(tweet =>
+        tweet.rt ? (
+          <TweetComponents.Retweet
+            key={`rt-timeline-${tweet.user_id}-${tweet.id}`}
+            {...tweet}
+          />
+        ) : (
+          <TweetComponents.SingleTweet
+            key={`timeline-${tweet.user_id}-${tweet.id}`}
+            {...tweet}
+          />
+        )
+      );
     }
   };
 
@@ -54,8 +63,7 @@ const ShowPage = props => {
 
   return (
     <div>
-      <h2>{showUser.username}</h2>
-      {followButton()}
+      <UserComponents.ProfileCard {...showUser} />
       <h2>Tweets</h2>
       {renderTweets()}
     </div>

@@ -1,17 +1,26 @@
 import React from 'react';
-// import { useSelector, useDispatch } from 'react-redux';
+import retweetIcon from '../../Assets/icons/retweet-icon.js';
+import { useSelector } from 'react-redux';
 // import { Link } from 'react-router-dom';
 // import TweetActions from '../../Redux/Actions/tweetActions';
 import SingleTweet from './SingleTweet';
 
 const Retweet = props => {
+  const username = useSelector(state => state.currentUser.username);
+  console.log(username);
+
   return (
     <div className="single-retweet">
-      <h1>Retweet by: {props.username}</h1>
-      <p>Original Tweeter: {props.tweet.username}</p>
-      <p>Content: {props.tweet.content}</p>
+      <div className="single-retweet-header">
+        {retweetIcon}
+        <p>
+          {props.username === username
+            ? 'You retweeted'
+            : props.username + ' retweeted'}
+        </p>
+      </div>
+
       <SingleTweet del={false} {...props.tweet} />
-      <h1>End</h1>
     </div>
   );
 };

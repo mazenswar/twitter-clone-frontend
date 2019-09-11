@@ -1,11 +1,12 @@
-import React from "react";
-import { useSelector } from "react-redux";
-import TweetComponents from "../Tweets";
-import ProfileCard from "./ProfileCard";
-import "../../Stylesheets/Users/profile.scss";
+import React from 'react';
+import { useSelector } from 'react-redux';
+import TweetComponents from '../Tweets';
+import ProfileCard from './ProfileCard';
+import '../../Stylesheets/Users/profile.scss';
 
 const ProfileContent = props => {
   const userTweets = useSelector(state => state.tweets);
+  const userID = useSelector(state => state.currentUser.id);
 
   const renderTweets = () => {
     if (userTweets.length) {
@@ -25,8 +26,7 @@ const ProfileContent = props => {
 
   return (
     <React.Fragment>
-      <button onClick={props.handleEdit}>Edit</button>
-      <ProfileCard />
+      <ProfileCard id={userID} />
       <div>{renderTweets()}</div>
     </React.Fragment>
   );

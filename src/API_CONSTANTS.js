@@ -1,23 +1,45 @@
-export const BASE_URL = 'http://localhost:3000';
+const BASE_URL = 'http://localhost:3000';
 // User URLS
-export const USERS_URL = BASE_URL + '/users';
-export const LOGIN_URL = BASE_URL + '/login';
-export const PERSIST_URL = BASE_URL + '/auth';
+const USERS_URL = BASE_URL + '/users';
+const LOGIN_URL = BASE_URL + '/login';
+const PERSIST_URL = BASE_URL + '/auth';
 
 // Tweet URLS
 
-export const TWEETS_URL = BASE_URL + '/tweets';
-export const USER_TWEETS_URL = BASE_URL + '/userTweets';
-export const SHOW_TWEETS_URL = id => `${BASE_URL}/users/${id}/showTweets`;
+const TWEETS_URL = BASE_URL + '/tweets';
+const USER_TWEETS_URL = BASE_URL + '/userTweets';
+const SHOW_TWEETS_URL = id => `${BASE_URL}/users/${id}/showTweets`;
 
 // Timeline
 
-export const TIMELINE_URL = BASE_URL + '/timeline';
+const TIMELINE_URL = BASE_URL + '/timeline';
 
 // Likes
 
-export const LIKES_URL = BASE_URL + '/likes';
+const LIKES_URL = BASE_URL + '/likes';
 
 // Hashtag
+const HASHTAGS_URL = BASE_URL + '/hashtags';
 
-export const HASHTAGS_URL = BASE_URL + '/hashtags';
+// Retweets
+
+const RETWEETS_URL = BASE_URL + '/retweets';
+
+// Notifications
+
+const NOTIFICATIONS_URL = BASE_URL + '/notifications';
+
+export default {
+  BASE_URL,
+  USERS_URL,
+  LOGIN_URL,
+  PERSIST_URL,
+  TWEETS_URL,
+  USER_TWEETS_URL,
+  SHOW_TWEETS_URL,
+  TIMELINE_URL,
+  LIKES_URL,
+  HASHTAGS_URL,
+  RETWEETS_URL,
+  NOTIFICATIONS_URL
+};

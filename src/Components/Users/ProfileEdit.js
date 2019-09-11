@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import userActions from '../../Redux/Actions/userActions';
+import tweetActions from '../../Redux/Actions/tweetActions';
 
 const ProfileEdit = props => {
-  const currentUser = useSelector(state => state.currentUser.data.attributes);
+  const currentUser = useSelector(state => state.currentUser);
   const [editForm, setEditForm] = useState({ ...currentUser });
   const dispatch = useDispatch();
   //
@@ -14,37 +15,39 @@ const ProfileEdit = props => {
     dispatch(userActions.deleteUserFromDB(editForm.id));
     props.history.push('/');
   };
+  console.log(props);
 
-  console.log(editForm);
+  const handleEdit = async user => {
+    await dispatch(userActions.updateUserToDB(user));
+    await dispatch(tweetActions.fetchUserTweetsFromDB());
+    props.setModal(!props.modal);
+  };
+
   return (
     <React.Fragment>
-      <button onClick={() => props.handleEdit(editForm)}>Save Changes</button>
-      <button onClick={handleDeleteUser}>Delete User</button>
-      <div className="profile-container">
-        <input
-          type="text"
-          name="first_name"
-          value={editForm.first_name}
-          onChange={handleChange}
-        />
-        <input
-          type="text"
-          name="last_name"
-          value={editForm.last_name}
-          onChange={handleChange}
-        />
-        <input
-          type="text"
-          name="email"
-          value={editForm.email}
-          onChange={handleChange}
-        />
-        <input
-          type="text"
-          name="username"
-          value={editForm.username}
-          onChange={handleChange}
-        />
+      <div className="modal">
+        <div className="edit-form">
+          <button
+            className="close-modal"
+            onClick={() => props.setModal(!props.modal)}
+          >
+            X
+          </button>
+          <button onClick={() => handleEdit(editForm)}>Save Changes</button>
+          <button onClick={handleDeleteUser}>Delete User</button>
+          <input
+            type="text"
+            name="email"
+            value={editForm.email}
+            onChange={handleChange}
+          />
+          <input
+            type="text"
+            name="username"
+            value={editForm.username}
+            onChange={handleChange}
+          />
+        </div>
       </div>
     </React.Fragment>
   );

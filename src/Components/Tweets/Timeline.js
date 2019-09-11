@@ -30,12 +30,7 @@ const Timeline = () => {
     }
   };
 
-  return (
-    <div>
-      <h1>Hello from the timeline</h1>
-      {renderTweets()}
-    </div>
-  );
+  return <div className="timeline-container">{renderTweets()}</div>;
 };
 
 export default Timeline;

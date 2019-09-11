@@ -1,10 +1,4 @@
-import {
-  TWEETS_URL,
-  USER_TWEETS_URL,
-  LIKES_URL,
-  TIMELINE_URL,
-  SHOW_TWEETS_URL
-} from '../../API_CONSTANTS';
+import API from '../../API_CONSTANTS';
 
 // ACTIONS
 const handleRetweetAction = tweet => ({
@@ -53,7 +47,7 @@ const handleRetweetToDB = tweetId => dispatch => {
     },
     body: JSON.stringify({ tweet_id: tweetId })
   };
-  fetch('http://localhost:3000/retweets', config)
+  fetch(API.RETWEETS_URL, config)
     .then(r => r.json())
     .then(tweet => {
       dispatch(handleRetweetAction(tweet));
@@ -61,7 +55,7 @@ const handleRetweetToDB = tweetId => dispatch => {
 };
 
 const fetchUserTweetsFromDB = () => dispatch => {
-  fetch(USER_TWEETS_URL, {
+  fetch(API.USER_TWEETS_URL, {
     headers: { Authorization: 'bearer ' + localStorage.token }
   })
     .then(r => r.json())
@@ -71,7 +65,7 @@ const fetchUserTweetsFromDB = () => dispatch => {
 };
 
 const fetchShowUserTweets = id => dispatch => {
-  fetch(SHOW_TWEETS_URL(id))
+  fetch(API.SHOW_TWEETS_URL(id))
     .then(r => r.json())
     .then(showUserTweets => {
       dispatch(fetchViewUserTweetsAction(showUserTweets));
@@ -79,7 +73,7 @@ const fetchShowUserTweets = id => dispatch => {
 };
 
 const fetchTimelineTweetsFromDB = () => dispatch => {
-  fetch(TIMELINE_URL, {
+  fetch(API.TIMELINE_URL, {
     headers: { Authorization: `bearer ` + localStorage.token }
   })
     .then(r => r.json())
@@ -98,7 +92,7 @@ const newTweetToDB = tweetObj => dispatch => {
     body: JSON.stringify(tweetObj)
   };
 
-  fetch(TWEETS_URL, config)
+  fetch(API.TWEETS_URL, config)
     .then(r => r.json())
     .then(newTweet => {
       dispatch(newTweetAction(newTweet));
@@ -106,7 +100,7 @@ const newTweetToDB = tweetObj => dispatch => {
 };
 
 const deleteTweetFromDB = tweetId => dispatch => {
-  fetch(`${TWEETS_URL}/${tweetId}`, {
+  fetch(`${API.TWEETS_URL}/${tweetId}`, {
     method: 'DELETE'
   }).then(r => {
     dispatch(deleteTweetAction(tweetId));
@@ -123,7 +117,7 @@ const newLikeToDB = tweetId => dispatch => {
     },
     body: JSON.stringify({ tweet_id: tweetId })
   };
-  fetch(LIKES_URL, config)
+  fetch(API.LIKES_URL, config)
     .then(r => r.json())
     .then(updatedTweet => {
       if (!updatedTweet.errors) {
@@ -142,7 +136,7 @@ const deleteLikeFromDB = tweetId => dispatch => {
     },
     body: JSON.stringify({ tweet_id: tweetId })
   };
-  fetch(`${LIKES_URL}/${tweetId}`, config)
+  fetch(`${API.LIKES_URL}/${tweetId}`, config)
     .then(r => r.json())
     .then(updatedTweet => {
       if (!updatedTweet.errors) {
