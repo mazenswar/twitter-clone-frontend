@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import userActions from '../../Redux/Actions/userActions';
+// import userActions from '../../Redux/Actions/userActions';
+import ShowActions from '../../Redux/Actions/showActions';
 import ProfileEdit from './ProfileEdit';
 
 const ProfileCard = props => {
@@ -8,6 +9,28 @@ const ProfileCard = props => {
   const currentUser = useSelector(state => state.currentUser);
   const user = props.username ? props : currentUser;
   const [modal, setModal] = useState(false);
+
+  const handleFollow = () => {
+    debugger;
+    const { match } = props;
+    const followeeId = match.params.id;
+    dispatch(ShowActions.followUpdateToDB(followeeId));
+  };
+
+  const followButton = () => {
+    if (user.followers) {
+      const follower = user.followers.find(user => user.id === currentUser.id);
+      return follower ? (
+        <button className="profile-card-follow-button" onClick={handleFollow}>
+          Unfollow
+        </button>
+      ) : (
+        <button className="profile-card-follow-button" onClick={handleFollow}>
+          Follow
+        </button>
+      );
+    }
+  };
 
   const editModal = () => {
     return modal ? <ProfileEdit modal={modal} setModal={setModal} /> : null;
@@ -34,7 +57,7 @@ const ProfileCard = props => {
           <button>1</button>
           <button>2</button>
           <button>3</button>
-          <button className="profile-card-follow-button">Unfollow</button>
+          {followButton()}
         </div>
       );
     } else {
@@ -43,7 +66,7 @@ const ProfileCard = props => {
           <button>1</button>
           <button>2</button>
           <button>3</button>
-          <button className="profile-card-follow-button">Follow</button>
+          {followButton()}
         </div>
       );
     }

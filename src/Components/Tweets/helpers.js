@@ -24,7 +24,6 @@ export const renderContent = (content, hashtags, mentions) => {
         );
       } else if (str.startsWith('@') && mentions.length) {
         const mention = findMention(str);
-
         arr.push(' ');
         arr.push(
           <Link

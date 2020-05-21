@@ -1,12 +1,11 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import TweetsActions from '../../Redux/Actions/tweetActions';
-import TweetComponents from '.';
+import TweetComponents from '../Tweets';
 
-const Timeline = () => {
+const Timeline = props => {
   const dispatch = useDispatch();
   const timelineTweets = useSelector(state => state.tweets);
-
   useEffect(() => {
     dispatch(TweetsActions.fetchTimelineTweetsFromDB());
   }, [dispatch]);

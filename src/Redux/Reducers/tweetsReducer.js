@@ -12,8 +12,10 @@ export default (state = initialState, { type, payload }) => {
       return removeTweet(state, payload);
     case 'UPDATE_LIKES':
       return updateTweets(state, payload);
-    case 'RETWEET':
+    case 'CREATE_RETWEET':
       return handleRetweet(state, payload);
+    case 'DELETE_RETWEET':
+      return removeTweet(state, payload);
     default:
       return state;
   }
@@ -22,20 +24,17 @@ export default (state = initialState, { type, payload }) => {
 // RETWEET HELPER
 
 const handleRetweet = (tweets, obj) => {
-  if (obj.retweet_id) {
-    const newTweets = tweets.filter(tweet => {
-      return !obj.rt && tweet.id !== obj.retweet_id;
-    });
-    return updateTweets(newTweets, obj.tweet);
-  } else {
-    return [obj, ...updateTweets(tweets, obj.tweet)];
-  }
+  const newTweets = tweets.filter(tweet => {
+    return !obj.rt && tweet.id !== obj.retweet_id;
+  });
+  return updateTweets(newTweets, obj.tweet);
 };
 
 // DELETE TWEET HELPER
 
 const removeTweet = (tweets, tweetId) => {
-  return tweets.filter(tweet => tweet.id !== tweetId);
+  debugger;
+  return tweets.filter(tweet => tweet.tweet.id !== tweetId);
 };
 
 const updateTweets = (tweets, updatedTweet) => {

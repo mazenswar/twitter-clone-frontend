@@ -7,7 +7,6 @@ import SingleTweet from './SingleTweet';
 
 const Retweet = props => {
   const username = useSelector(state => state.currentUser.username);
-  console.log(username);
 
   return (
     <div className="single-retweet">

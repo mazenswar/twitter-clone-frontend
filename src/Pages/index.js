@@ -5,7 +5,6 @@ import Signup from './SignupPage';
 import Home from './Home';
 import Profile from './ProfilePage';
 import HashtagShow from './HashtagShow';
-import Test from './Test';
 // Stylesheets
 import '../Stylesheets/Pages/home.scss';
 import '../Stylesheets/Users/profile.scss';
@@ -16,6 +15,5 @@ export default {
   Signup,
   Home,
   Profile,
-  HashtagShow,
-  Test
+  HashtagShow
 };

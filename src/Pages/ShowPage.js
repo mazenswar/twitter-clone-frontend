@@ -7,17 +7,16 @@ import TweetActions from '../Redux/Actions/tweetActions';
 
 const ShowPage = props => {
   const dispatch = useDispatch();
-  const currentUserID = useSelector(state => state.currentUser.id);
-  const showUser = useSelector(state =>
-    state.showUser.id ? state.showUser : ''
-  );
+  const showUser = useSelector(state => state.showUser);
   const tweets = useSelector(state => state.tweets);
 
   useEffect(() => {
+    console.log(props);
     const userId = props.match.params.id;
     dispatch(ShowActions.getShowUserFromDB(userId));
     dispatch(TweetActions.fetchShowUserTweets(userId));
-  }, [dispatch, props.match.params.id]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const renderTweets = () => {
     // debugger;
@@ -40,30 +39,31 @@ const ShowPage = props => {
 
   //////////////////////////////////////////////////////////////////////////////
 
-  const handleFollow = () => {
-    const { match } = props;
-    const followeeId = match.params.id;
-    dispatch(ShowActions.followUpdateToDB(followeeId));
-  };
+  // const handleFollow = () => {
+  //   const { match } = props;
+  //   const followeeId = match.params.id;
+  //   debugger;
+  //   dispatch(ShowActions.followUpdateToDB(followeeId));
+  // };
 
-  const followButton = () => {
-    if (showUser.followers) {
-      const follower = showUser.followers.find(
-        user => user.id === currentUserID
-      );
-      return follower ? (
-        <button onClick={handleFollow}>Unfollow</button>
-      ) : (
-        <button onClick={handleFollow}>Follow</button>
-      );
-    }
-  };
+  // const followButton = () => {
+  //   if (showUser.followers) {
+  //     const follower = showUser.followers.find(
+  //       user => user.id === currentUserID
+  //     );
+  //     return follower ? (
+  //       <button onClick={handleFollow}>Unfollow</button>
+  //     ) : (
+  //       <button onClick={handleFollow}>Follow</button>
+  //     );
+  //   }
+  // };
 
   /////////////////////////////////////////////////////////////////////////////
 
   return (
     <div>
-      <UserComponents.ProfileCard {...showUser} />
+      <UserComponents.ProfileCard {...showUser} match={props.match} />
       <h2>Tweets</h2>
       {renderTweets()}
     </div>

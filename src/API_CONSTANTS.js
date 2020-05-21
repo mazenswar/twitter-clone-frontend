@@ -8,7 +8,7 @@ const PERSIST_URL = BASE_URL + '/auth';
 
 const TWEETS_URL = BASE_URL + '/tweets';
 const USER_TWEETS_URL = BASE_URL + '/userTweets';
-const SHOW_TWEETS_URL = id => `${BASE_URL}/users/${id}/showTweets`;
+const SHOW_TWEETS_URL = (id) => `${BASE_URL}/users/${id}/showTweets`;
 
 // Timeline
 
@@ -25,11 +25,7 @@ const HASHTAGS_URL = BASE_URL + '/hashtags';
 
 const RETWEETS_URL = BASE_URL + '/retweets';
 
-// Notifications
-
-const NOTIFICATIONS_URL = BASE_URL + '/notifications';
-
-export default {
+const API = {
   BASE_URL,
   USERS_URL,
   LOGIN_URL,
@@ -41,5 +37,6 @@ export default {
   LIKES_URL,
   HASHTAGS_URL,
   RETWEETS_URL,
-  NOTIFICATIONS_URL
 };
+
+export default API;

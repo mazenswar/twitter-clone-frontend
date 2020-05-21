@@ -1,33 +1,26 @@
-import React from "react";
-import { BrowserRouter as Router } from "react-router-dom";
-import { connect } from "react-redux";
-import MasterComponents from "./Components/Master";
-import userActions from "./Redux/Actions/userActions";
-import "./Stylesheets/master.scss";
+import React, { useEffect } from 'react';
+import { BrowserRouter as Router } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import MasterComponents from './Components/Master';
+import userActions from './Redux/Actions/userActions';
+import './Stylesheets/master.scss';
 
-class App extends React.Component {
-  componentDidMount() {
-    const { persistUserFromDB } = this.props;
+const App = () => {
+  const disptach = useDispatch();
+  useEffect(() => {
     if (localStorage.token) {
-      persistUserFromDB();
+      disptach(userActions.persistUserFromDB());
     }
-  }
-  render() {
-    return (
-      <Router>
-        <MasterComponents.Nav />
-        <div className="main-content">
-          <MasterComponents.Routes />
-        </div>
-      </Router>
-    );
-  }
-}
-const mapDispatchToProps = {
-  persistUserFromDB: userActions.persistUserFromDB
+  }, [disptach]);
+
+  return (
+    <Router>
+      <MasterComponents.Nav />
+      <div className="main-content">
+        <MasterComponents.Routes />
+      </div>
+    </Router>
+  );
 };
-const mapStateToProps = state => state;
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(App);
+
+export default App;

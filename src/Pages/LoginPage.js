@@ -9,7 +9,6 @@ const LoginPage = props => {
     username: '',
     password: ''
   });
-  const { username, password } = loginForm;
 
   ///////
   const handleSubmit = e => {
@@ -22,6 +21,7 @@ const LoginPage = props => {
     setLoginForm({ ...loginForm, [e.target.name]: e.target.value });
   /////////
 
+  const { username, password } = loginForm;
   return (
     <form onSubmit={handleSubmit}>
       <h1>Login Page</h1>

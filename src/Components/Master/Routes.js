@@ -5,9 +5,13 @@ import Pages from '../../Pages';
 
 const Routes = props => {
   const user = useSelector(state => state.currentUser);
+  const x = 'ndkfjdnfjkdbnfjkfbjewk';
   const userRoutes = () => (
     <React.Fragment>
-      <Route path="/profile" component={Pages.Profile} />
+      <Route
+        path="/profile"
+        render={rp => <Pages.Profile router={rp} x={x} />}
+      />
       <Route path="/follows" component={Pages.Follows} />
       <Route exact path="/" component={Pages.Home} />
       <Route exact path="/users" component={Pages.UsersIndex} />

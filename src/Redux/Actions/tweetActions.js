@@ -1,9 +1,14 @@
 import API from '../../API_CONSTANTS';
 
 // ACTIONS
-const handleRetweetAction = tweet => ({
-  type: 'RETWEET',
+const createRetweetAction = tweet => ({
+  type: 'CREATE_RETWEET',
   payload: tweet
+});
+
+const deleteRetweetAction = tweetId => ({
+  type: 'DELETE_RETWEET',
+  payload: tweetId
 });
 
 const newTweetAction = tweet => ({
@@ -36,8 +41,21 @@ const updateLikes = tweet => ({
 });
 
 // FETCH
+const deleteRetweetToDB = tweetId => dispatch => {
+  const config = {
+    method: 'DELETE',
+    headers: {
+      'Content-Type': 'application/json',
+      Accept: 'application/json',
+      Authorization: `bearer ` + localStorage.token
+    }
+  };
+  fetch(API.RETWEETS_URL + tweetId, config).then(res => {
+    dispatch(deleteRetweetAction(tweetId));
+  });
+};
 
-const handleRetweetToDB = tweetId => dispatch => {
+const createRetweetToDB = tweetId => dispatch => {
   const config = {
     method: 'POST',
     headers: {
@@ -50,7 +68,7 @@ const handleRetweetToDB = tweetId => dispatch => {
   fetch(API.RETWEETS_URL, config)
     .then(r => r.json())
     .then(tweet => {
-      dispatch(handleRetweetAction(tweet));
+      dispatch(createRetweetAction(tweet));
     });
 };
 
@@ -154,5 +172,6 @@ export default {
   deleteTweetFromDB,
   newLikeToDB,
   deleteLikeFromDB,
-  handleRetweetToDB
+  deleteRetweetToDB,
+  createRetweetToDB
 };

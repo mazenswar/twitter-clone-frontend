@@ -17,8 +17,6 @@ const NewTweetForm = () => {
   };
 
   const handleChange = e => {
-    // console.log(textRef);
-    // debugger;
     setNewTweet({ content: e.target.value });
     e.target.style.height = e.target.scrollHeight + 'px';
   };
