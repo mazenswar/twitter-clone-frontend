@@ -4,8 +4,7 @@ import UserComponents from '../Components/Users';
 
 import tweetActions from '../Redux/Actions/tweetActions';
 
-const ProfilePage = props => {
-  console.log(props);
+const ProfilePage = (props) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
